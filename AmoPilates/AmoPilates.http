@@ -1,0 +1,6 @@
+@AmoPilates_HostAddress = http://localhost:5055
+
+GET {{AmoPilates_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
