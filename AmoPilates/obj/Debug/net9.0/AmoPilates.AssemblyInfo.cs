@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AmoPilates")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c6491260a5fac8ba04206fd08895163ed8a7311")]
 [assembly: System.Reflection.AssemblyProductAttribute("AmoPilates")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AmoPilates")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

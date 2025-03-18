@@ -13,7 +13,7 @@ namespace AmoPilates.Validaciones
                 return ValidationResult.Success;
             }
             return new ValidationResult("El día ingresado no es válido. " +
-                "Debe ser uno de los siguientes: Lunes, Martes, Miercoles, Jueves, Viernes, Sabado. Primera letra en mayúscula");
+                "Debe ser uno de los siguientes: Lunes, Martes, Miercoles, Jueves, Viernes, Sabado (Primera letra en mayúscula)");
         }
     }
 }

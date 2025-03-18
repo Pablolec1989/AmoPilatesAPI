@@ -708,7 +708,6 @@
             "multipart/form-data": {
               "schema": {
                 "required": [
-                  "AlumnosIds",
                   "DiaHoraId",
                   "InstructorId"
                 ],
@@ -819,7 +818,6 @@
             "multipart/form-data": {
               "schema": {
                 "required": [
-                  "AlumnosIds",
                   "DiaHoraId",
                   "InstructorId"
                 ],

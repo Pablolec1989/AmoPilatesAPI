@@ -35,7 +35,7 @@ namespace AmoPilates.Controllers
             await HttpContext.insertarParametrosPaginacionEnCabecera(queryable);
 
             return await queryable
-                .OrderBy(i => i.Nombre)
+                .OrderBy(i => i.Id)
                 .Paginar(paginacion)
                 .ProjectTo<InstructorDTO>(mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -46,18 +46,19 @@ namespace AmoPilates.Controllers
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult<InstructorDTO>> Get (int id)
         {
+            //Buscar Instructores con ese id
             var instructor = await context.Instructores
+                .ProjectTo<InstructorDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             if(instructor is null)
             {
-                return NotFound();
+                return NotFound("Instructor no encontrado");
             }
+
             await outputCacheStore.EvictByTagAsync(cacheTag, default);
 
-            var instructorDTO = mapper.Map<InstructorDTO>(instructor);
-
-            return instructorDTO;
+            return instructor;
         }
 
 
@@ -65,6 +66,10 @@ namespace AmoPilates.Controllers
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult> Post([FromForm] InstructorCreationDTO instructorCreationDTO)
         {
+            //Validar que no haya otro instructor con el mismo nombre y apellido sin importar mayusculas
+            var instructorExiste = await context.Instructores
+                .AnyAsync(i => i.Nombre.ToLower() == instructorCreationDTO.Nombre.ToLower() && 
+                i.Apellido.ToLower() == instructorCreationDTO.Apellido.ToLower());
 
             var instructor = mapper.Map<Instructor>(instructorCreationDTO);
             context.Add(instructor);

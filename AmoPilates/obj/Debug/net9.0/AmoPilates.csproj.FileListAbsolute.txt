@@ -166,3 +166,4 @@ C:\Users\LECCESE\source\repos\AmoPilates_v2\AmoPilatesAPI\AmoPilates\bin\Debug\n
 C:\Users\LECCESE\source\repos\AmoPilates_v2\AmoPilatesAPI\AmoPilates\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\LECCESE\source\repos\AmoPilates_v2\AmoPilatesAPI\AmoPilates\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\LECCESE\source\repos\AmoPilates_v2\AmoPilatesAPI\AmoPilates\bin\Debug\net9.0\AutoMapper.dll
+C:\Users\LECCESE\source\repos\AmoPilates_v2\AmoPilatesAPI\AmoPilates\obj\Debug\net9.0\AmoPilates.sourcelink.json

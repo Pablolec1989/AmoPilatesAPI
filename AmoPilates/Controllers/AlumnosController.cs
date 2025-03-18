@@ -66,6 +66,7 @@ namespace AmoPilates.Controllers
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult> Post([FromForm] AlumnoCreationDTO alumnoCreationDTO)
         {
+            //Validar que no exista otro alumno con el mismo nombre y apellido
             var alumnoExiste = await context.Alumnos
                 .AnyAsync(a => a.Nombre == alumnoCreationDTO.Nombre && a.Apellido == alumnoCreationDTO.Apellido);
 

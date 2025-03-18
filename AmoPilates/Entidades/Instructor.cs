@@ -16,6 +16,7 @@ namespace AmoPilates.Entidades
         [MaxLength(50)]
         [PrimeraLetraMayuscula]
         public required string Apellido { get; set; }
+        [Range(0,100, ErrorMessage = "El porcentaje es un rango de 0 a 100 ")]
 
         public List<Turno> Turnos { get; set; } = [];
     }

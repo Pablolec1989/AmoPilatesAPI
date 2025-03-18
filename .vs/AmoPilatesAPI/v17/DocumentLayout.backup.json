@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\controllers\\turnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\controllers\\turnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\utilidades\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\utilidades\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\dtos\\turnodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\dtos\\turnodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\dtos\\turnocreationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\dtos\\turnocreationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\servicios\\alumnosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\servicios\\alumnosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\controllers\\alumnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\controllers\\alumnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\controllers\\turnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\controllers\\turnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|c:\\users\\leccese\\source\\repos\\amopilates_v2\\amopilatesapi\\amopilates\\servicios\\instructoresservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D58645EF-D06C-4783-A35A-5C6D45715ED5}|AmoPilates\\AmoPilates.csproj|solutionrelative:amopilates\\servicios\\instructoresservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -71,66 +67,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "TurnoCreationDTO.cs",
-              "DocumentMoniker": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\DTOs\\TurnoCreationDTO.cs",
-              "RelativeDocumentMoniker": "AmoPilates\\DTOs\\TurnoCreationDTO.cs",
-              "ToolTip": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\DTOs\\TurnoCreationDTO.cs",
-              "RelativeToolTip": "AmoPilates\\DTOs\\TurnoCreationDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Title": "InstructoresService.cs",
+              "DocumentMoniker": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Servicios\\InstructoresService.cs",
+              "RelativeDocumentMoniker": "AmoPilates\\Servicios\\InstructoresService.cs",
+              "ToolTip": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Servicios\\InstructoresService.cs",
+              "RelativeToolTip": "AmoPilates\\Servicios\\InstructoresService.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwA0AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-17T17:29:49.693Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TurnoDTO.cs",
-              "DocumentMoniker": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\DTOs\\TurnoDTO.cs",
-              "RelativeDocumentMoniker": "AmoPilates\\DTOs\\TurnoDTO.cs",
-              "ToolTip": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\DTOs\\TurnoDTO.cs",
-              "RelativeToolTip": "AmoPilates\\DTOs\\TurnoDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-17T17:28:00.617Z",
+              "WhenOpened": "2025-03-18T15:15:21.484Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AutomapperProfiles.cs",
-              "DocumentMoniker": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Utilidades\\AutomapperProfiles.cs",
-              "RelativeDocumentMoniker": "AmoPilates\\Utilidades\\AutomapperProfiles.cs",
-              "ToolTip": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Utilidades\\AutomapperProfiles.cs",
-              "RelativeToolTip": "AmoPilates\\Utilidades\\AutomapperProfiles.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAIwDQAAABeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-17T17:25:13.213Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "AlumnosController.cs",
               "DocumentMoniker": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Controllers\\AlumnosController.cs",
               "RelativeDocumentMoniker": "AmoPilates\\Controllers\\AlumnosController.cs",
               "ToolTip": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Controllers\\AlumnosController.cs",
               "RelativeToolTip": "AmoPilates\\Controllers\\AlumnosController.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAwwFIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAIwEQAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-17T17:21:43.371Z",
+              "WhenOpened": "2025-03-18T15:02:12.061Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AlumnosService.cs",
+              "DocumentMoniker": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Servicios\\AlumnosService.cs",
+              "RelativeDocumentMoniker": "AmoPilates\\Servicios\\AlumnosService.cs",
+              "ToolTip": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Servicios\\AlumnosService.cs",
+              "RelativeToolTip": "AmoPilates\\Servicios\\AlumnosService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwBkAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T14:33:02.666Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "TurnosController.cs",
               "DocumentMoniker": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Controllers\\TurnosController.cs",
               "RelativeDocumentMoniker": "AmoPilates\\Controllers\\TurnosController.cs",
               "ToolTip": "C:\\Users\\LECCESE\\source\\repos\\AmoPilates_v2\\AmoPilatesAPI\\AmoPilates\\Controllers\\TurnosController.cs",
               "RelativeToolTip": "AmoPilates\\Controllers\\TurnosController.cs",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAQwIMAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAKkAAAAAAAAAAAAcwKsAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-17T16:27:59.491Z",
+              "WhenOpened": "2025-03-18T12:29:23.052Z",
               "EditorCaption": ""
             }
           ]

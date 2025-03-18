@@ -1,4 +1,5 @@
 using AmoPilates;
+using AmoPilates.Servicios;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -10,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
+//ServicesPersonalizados
+builder.Services.AddScoped<InstructoresService>();
+builder.Services.AddScoped<AlumnosService>();
 
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
