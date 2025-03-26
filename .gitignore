@@ -1,5 +1,14 @@
 **/[Bb]in/
 **/[Oo]bj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.json
+*.txt
+*.props
+
+
 **/.vs/
 **/.vscode/
 
