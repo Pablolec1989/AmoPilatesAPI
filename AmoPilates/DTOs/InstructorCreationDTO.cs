@@ -1,16 +1,14 @@
 ﻿using AmoPilates.Validaciones;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AmoPilates.DTOs
 {
     public class InstructorCreationDTO
     {
-        [MaxLength(50)]
-        [PrimeraLetraMayuscula]
         public required string Nombre { get; set; }
-
-        [MaxLength(50)]
-        [PrimeraLetraMayuscula]
         public required string Apellido { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public int PorcentajeDeGanancia { get; set; }
     }
 }

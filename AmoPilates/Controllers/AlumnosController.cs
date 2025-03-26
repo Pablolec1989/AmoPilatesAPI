@@ -36,11 +36,10 @@ namespace AmoPilates.Controllers
             await HttpContext.insertarParametrosPaginacionEnCabecera(queryable);
 
             return await queryable
-                .OrderBy(a => a.Nombre)
+                .OrderBy(a => a.Id)
                 .Paginar(paginacion)
                 .ProjectTo<AlumnoDTO>(mapper.ConfigurationProvider).
                 ToListAsync();
-
         }
 
 
@@ -56,6 +55,7 @@ namespace AmoPilates.Controllers
             {
                 return NotFound();
             }
+
             await outputCacheStore.EvictByTagAsync(cacheTag, default);
 
             return alumno;
@@ -66,7 +66,9 @@ namespace AmoPilates.Controllers
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult> Post([FromForm] AlumnoCreationDTO alumnoCreationDTO)
         {
-            //Validar que no exista otro alumno con el mismo nombre y apellido
+            var alumno = mapper.Map<Alumno>(alumnoCreationDTO);
+
+            //Validar que no exista mismo alumno con el mismo nombre y apellido
             var alumnoExiste = await context.Alumnos
                 .AnyAsync(a => a.Nombre == alumnoCreationDTO.Nombre && a.Apellido == alumnoCreationDTO.Apellido);
 
@@ -75,15 +77,13 @@ namespace AmoPilates.Controllers
                 return BadRequest("El alumno ya existe");
             }
 
-            //Crear el alumno
-            var alumno = mapper.Map<Alumno>(alumnoCreationDTO);
+
             context.Add(alumno);
             await context.SaveChangesAsync();
 
-            var alumnoDTO = mapper.Map<AlumnoDTO>(alumno);
             await outputCacheStore.EvictByTagAsync(cacheTag, default);
 
-            return CreatedAtRoute("ObtenerAlumnoPorId", new { id = alumnoDTO.Id }, alumnoDTO);
+            return CreatedAtRoute("ObtenerAlumnoPorId", new { id = alumno.Id }, alumnoCreationDTO);
         }
 
 

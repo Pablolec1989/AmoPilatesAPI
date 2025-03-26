@@ -14,8 +14,7 @@ namespace AmoPilates.Servicios
         public async Task<bool> InstructorExiste(int instructorId)
         {
             return await context.Instructores.AnyAsync(i => i.Id == instructorId);
-
         }
-    }
 
+    }
 }

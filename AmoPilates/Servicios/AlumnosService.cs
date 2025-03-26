@@ -13,7 +13,7 @@ namespace AmoPilates.Servicios
             this.context = context;
         }
 
-        public async Task<ActionResult> ValidarAlumnos(List<int> alumnosIds)
+        public async Task<bool> ValidarAlumnos(List<int> alumnosIds)
         {
             var alumnosExistentes = await context.Alumnos
                 .Where(a => alumnosIds.Contains(a.Id))
@@ -22,11 +22,20 @@ namespace AmoPilates.Servicios
 
             if (alumnosExistentes.Count != alumnosIds.Count)
             {
-                var alumnosNoExistentes = alumnosIds.Except(alumnosExistentes).ToList();
-                return BadRequest($"El/Los alumnos de id: {string.Join(", ", alumnosNoExistentes)}");
+                return true;
             }
 
-            return null; // Indica que la validación fue exitosa
+            return false;
+        }
+
+        public async Task<bool> ValidarAlumnosDuplicados(List<int> alumnoIds, int turnoId = 0)
+        {
+            // Verificar si algún alumno ya está asignado al turno
+            var alumnosDuplicados = await context.TurnosAlumnos
+                .Where(ta => ta.TurnoId == turnoId && alumnoIds.Contains(ta.AlumnoId))
+                .ToListAsync();
+
+            return alumnosDuplicados.Any(); // Retorna true si hay duplicados
         }
     }
 }

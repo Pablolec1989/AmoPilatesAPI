@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -19,26 +20,12 @@ namespace AmoPilates.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     NroTelefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Observaciones = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    Observaciones = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    FrecuenciaTurno = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Alumnos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DiaHoras",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Hora = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cupos = table.Column<int>(type: "int", maxLength: 6, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DiaHoras", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,11 +35,30 @@ namespace AmoPilates.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Apellido = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PorcentajeDeGanancia = table.Column<int>(type: "int", nullable: false),
+                    Ganancia = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Instructores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tarifas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ValorClaseIndividual = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Valor2Turnos = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Valor3Turnos = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GananciaTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FechaCalculo = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tarifas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,18 +67,14 @@ namespace AmoPilates.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DiaHoraId = table.Column<int>(type: "int", nullable: false),
-                    InstructorId = table.Column<int>(type: "int", nullable: false)
+                    Dia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Hora = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InstructorId = table.Column<int>(type: "int", nullable: false),
+                    Cupos = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Turnos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Turnos_DiaHoras_DiaHoraId",
-                        column: x => x.DiaHoraId,
-                        principalTable: "DiaHoras",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Turnos_Instructores_InstructorId",
                         column: x => x.InstructorId,
@@ -96,19 +98,14 @@ namespace AmoPilates.Migrations
                         column: x => x.AlumnoId,
                         principalTable: "Alumnos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TurnosAlumnos_Turnos_TurnoId",
                         column: x => x.TurnoId,
                         principalTable: "Turnos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Turnos_DiaHoraId",
-                table: "Turnos",
-                column: "DiaHoraId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Turnos_InstructorId",
@@ -125,6 +122,9 @@ namespace AmoPilates.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Tarifas");
+
+            migrationBuilder.DropTable(
                 name: "TurnosAlumnos");
 
             migrationBuilder.DropTable(
@@ -132,9 +132,6 @@ namespace AmoPilates.Migrations
 
             migrationBuilder.DropTable(
                 name: "Turnos");
-
-            migrationBuilder.DropTable(
-                name: "DiaHoras");
 
             migrationBuilder.DropTable(
                 name: "Instructores");

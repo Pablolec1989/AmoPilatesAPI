@@ -1,5 +1,6 @@
 ﻿using AmoPilates.DTOs;
 using AmoPilates.Entidades;
+using AmoPilates.Servicios;
 using AmoPilates.Utilidades;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -41,25 +42,74 @@ namespace AmoPilates.Controllers
                 .ToListAsync();
         }
 
-
         [HttpGet("{id:int}", Name = "ObtenerInstructorPorId")]
         [OutputCache(Tags = [cacheTag])]
-        public async Task<ActionResult<InstructorDTO>> Get (int id)
+        public async Task<ActionResult<InstructorDTO>> Get(int id)
         {
-            //Buscar Instructores con ese id
+            //Validar existencia del instructor
             var instructor = await context.Instructores
                 .ProjectTo<InstructorDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
-            if(instructor is null)
+            if (instructor == null)
             {
-                return NotFound("Instructor no encontrado");
+                return NotFound();
             }
 
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
+            //Identificar los alumnos con el mismo turno que el instructor
+            var alumnos = await context.Turnos
+                .Where(t => t.InstructorId == id)
+                .SelectMany(t => t.TurnoAlumnos.Select(ta => ta.Alumnos))
+                .ToListAsync();
 
-            return instructor;
+            if(alumnos is null)
+            {
+                return NotFound("No existen alumnos");
+            }
+
+            //Calcular la ganancia del instructor de acuerdo a la frecuencia del alumno
+            foreach (var alumno in alumnos)
+            {
+                var ganancias = await context.Tarifas.FirstOrDefaultAsync();
+
+                //Validar que existan las tarifas
+                if(ganancias is null)
+                {
+                    return NotFound("Los valores de tarifas no han sido asignados");
+                }
+
+                decimal gananciaAlumnos = 0;
+                decimal gananciaInstructor = 0;
+
+                if (alumno.FrecuenciaTurno == 0)
+                {
+                    return NotFound("El alumno no asiste a ningun turno");
+                }
+                else if(alumno.FrecuenciaTurno == 2)
+                {
+                    gananciaAlumnos = ganancias.Valor2Turnos;
+                }
+                else if (alumno.FrecuenciaTurno == 3)
+                {
+                    gananciaAlumnos = ganancias.Valor3Turnos;
+                }
+                else
+                {
+                    gananciaAlumnos = ganancias.ValorClaseIndividual;
+                }
+
+                gananciaInstructor = gananciaAlumnos * instructor.PorcentajeDeGanancia/100;
+                instructor.Ganancia = gananciaInstructor;
+            }
+
+            await context.SaveChangesAsync();
+
+
+            return Ok(instructor);
+
+
         }
+
 
 
         [HttpPost]

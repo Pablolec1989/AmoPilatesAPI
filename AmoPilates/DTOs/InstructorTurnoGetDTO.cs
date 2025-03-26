@@ -2,6 +2,6 @@
 {
     public class InstructorTurnoGetDTO
     {
-        public required string NombreCompleto { get; set; }
+        public string NombreCompleto { get; set; } = null!;
     }
 }

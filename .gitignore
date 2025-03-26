@@ -1,0 +1,9 @@
+**/[Bb]in/
+**/[Oo]bj/
+**/.vs/
+**/.vscode/
+
+AmoPilates/bin/
+AmoPilates/obj/
+
+packages/

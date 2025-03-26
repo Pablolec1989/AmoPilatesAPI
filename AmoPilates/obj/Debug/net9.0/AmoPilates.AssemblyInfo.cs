@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AmoPilates")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1ff100ad973763867d1346194872e24d22279dc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+487701dd45657b5115921368035080a4e65a28de")]
 [assembly: System.Reflection.AssemblyProductAttribute("AmoPilates")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AmoPilates")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

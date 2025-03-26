@@ -39,6 +39,11 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "Nombre",
         "Type": "System.String",
         "IsRequired": false
@@ -102,6 +107,11 @@
         "IsRequired": true
       },
       {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "Nombre",
         "Type": "System.String",
         "IsRequired": false
@@ -128,116 +138,6 @@
     "ContainingType": "AmoPilates.Controllers.AlumnosController",
     "Method": "Delete",
     "RelativePath": "api/alumnos/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AmoPilates.Controllers.DiaHorasController",
-    "Method": "Get",
-    "RelativePath": "api/diashoras",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[AmoPilates.DTOs.diaHoraDTO, AmoPilates, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "AmoPilates.Controllers.DiaHorasController",
-    "Method": "Post",
-    "RelativePath": "api/diashoras",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Dia",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Hora",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AmoPilates.Controllers.DiaHorasController",
-    "Method": "Get",
-    "RelativePath": "api/diashoras/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "AmoPilates.DTOs.diaHoraDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ],
-    "EndpointName": "obtenerDiaHoraPorId"
-  },
-  {
-    "ContainingType": "AmoPilates.Controllers.DiaHorasController",
-    "Method": "Put",
-    "RelativePath": "api/diashoras/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "Dia",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Hora",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AmoPilates.Controllers.DiaHorasController",
-    "Method": "Delete",
-    "RelativePath": "api/diashoras/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -298,6 +198,11 @@
         "Name": "Apellido",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "PorcentajeDeGanancia",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -351,6 +256,11 @@
         "Name": "Apellido",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "PorcentajeDeGanancia",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -367,6 +277,57 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AmoPilates.Controllers.TarifasController",
+    "Method": "Get",
+    "RelativePath": "api/tarifas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "AmoPilates.DTOs.TarifaDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AmoPilates.Controllers.TarifasController",
+    "Method": "Post",
+    "RelativePath": "api/tarifas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Valor2Turnos",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Valor3Turnos",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "ValorClaseIndividual",
+        "Type": "System.Decimal",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -416,8 +377,13 @@
         "IsRequired": false
       },
       {
-        "Name": "DiaHoraId",
-        "Type": "System.Int32",
+        "Name": "Dia",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Hora",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -428,6 +394,11 @@
       {
         "Name": "AlumnosIds",
         "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Cupos",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -479,8 +450,13 @@
         "IsRequired": false
       },
       {
-        "Name": "DiaHoraId",
-        "Type": "System.Int32",
+        "Name": "Dia",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Hora",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -491,6 +467,11 @@
       {
         "Name": "AlumnosIds",
         "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Cupos",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -511,5 +492,25 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AmoPilates.Controllers.TurnosController",
+    "Method": "PostGet",
+    "RelativePath": "api/turnos/PostGet",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "AmoPilates.DTOs.TurnoPostGetDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

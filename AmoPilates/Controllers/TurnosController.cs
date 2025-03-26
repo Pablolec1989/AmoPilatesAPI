@@ -40,11 +40,11 @@ namespace AmoPilates.Controllers
             var queryable = context.Turnos;
             await HttpContext.insertarParametrosPaginacionEnCabecera(queryable);
 
-            var turnos = await queryable
+            return await queryable
+                .Paginar(paginacion)
                 .ProjectTo<TurnoDTO>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            return turnos;
         }
 
 
@@ -52,202 +52,191 @@ namespace AmoPilates.Controllers
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult<TurnoDTO>> Get(int id)
         {
-            var turno = await context.Turnos
-                .ProjectTo<TurnoDTO>(mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (turno is null)
-            {
-                return BadRequest();
-            }
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
-
-            return turno;
-        }
-
-
-        [HttpPost]
-        [OutputCache(Tags = [cacheTag])]
-        public async Task<ActionResult> Post([FromForm] TurnoCreationDTO turnoCreationDTO)
-        {
-
-            //Validar que no haya otro turno el mismo dia y misma hora
-            var turnoExiste = await context.Turnos
-                .AnyAsync(t => t.DiaHoraId == turnoCreationDTO.DiaHoraId);
-
-            if (turnoExiste)
-            {
-                return BadRequest("Ya existe un turno en ese horario");
-            }
-
-            //Validar que dia y horario existan
-            var diaHora = await context.DiaHoras
-                .FirstOrDefaultAsync(dh => dh.Id == turnoCreationDTO.DiaHoraId);
-
-            if (diaHora is null)
-            {
-                return BadRequest("El dia o/u horario no existen");
-            }
-
-            //Validar que el instructor exista
-            if (await instructorService.InstructorExiste(turnoCreationDTO.InstructorId))
-            {
-                return BadRequest("El instructor no existe");
-            }
-
-            //Validar que los alumnos existan
-            var alumnosIds = turnoCreationDTO.AlumnosIds;
-
-            await alumnosService.ValidarAlumnos(alumnosIds);
-
-            //Crear el turno
-            var turno = mapper.Map<Turno>(turnoCreationDTO);
-            context.Add(turno);
-            await context.SaveChangesAsync(); //Guardamos para obtener el Id del turno.
-
-            //Crear la relacion TurnosAlumnos
-            foreach (var alumnoId in turnoCreationDTO.AlumnosIds)
-            {
-                // Verificar si el registro ya existe antes de agregarlo
-                if (!context.TurnosAlumnos.Any(ta => ta.TurnoId == turno.Id && ta.AlumnoId == alumnoId))
-                {
-                    context.TurnosAlumnos.Add(new TurnoAlumno { TurnoId = turno.Id, AlumnoId = alumnoId });
-                }
-            }
-
-            //Cargar los alumnos relacionados y el instructor
-            turno = await context.Turnos
-                .Include(t => t.TurnosAlumnos)
-                .ThenInclude(ta => ta.Alumnos)
+            var turnoDTO = await context.Turnos
                 .Include(t => t.Instructor)
-                .FirstOrDefaultAsync(t => t.Id == turno.Id);
+                .Include(t => t.TurnoAlumnos)
+                .ProjectTo<TurnoDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
 
-            //Actualizar los cupos de acuerdo a la cantidad de alumnos que hayan quedado en el turno
-            diaHora.Cupos -= turno!.TurnosAlumnos.Count;
-
-            await context.SaveChangesAsync();
-
-            var turnoDTO = mapper.Map<TurnoDTO>(turno);
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
-
-            return CreatedAtRoute("ObtenerTurnoPorId", new { id = turnoDTO.Id }, turnoDTO);
-
-        }
-
-
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(int id, [FromForm] TurnoCreationDTO turnoCreationDTO)
-        {
-
-            //Busco el turno con ese Id.
-            var turno = await context.Turnos
-                .Include(t => t.TurnosAlumnos)
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            //Validar que el id es el mismo del turno a modificar
-            if (id != turnoCreationDTO.Id)
-            {
-                return BadRequest("El id del turno no coincide con el id de la URL");
-            }
-
-            //Validar que no haya otro turno el mismo dia y misma hora
-            var turnoExiste = await context.Turnos
-                .AnyAsync(t => t.DiaHoraId == turnoCreationDTO.DiaHoraId && t.Id != id);
-
-            if (turnoExiste)
-            {
-                return BadRequest("Ya existe un turno en ese horario");
-            }
-
-            //Buscar el diaHora vinculado al turno y validar que dia y horario existan
-            var diaHora = await context.DiaHoras
-                .FirstOrDefaultAsync(dh => dh.Id == turnoCreationDTO.DiaHoraId);
-
-            if (diaHora is null)
-            {
-                return BadRequest("El dia o el horario no existen");
-            }
-
-            //Validar que el instructor exista
-            if (!await instructorService.InstructorExiste(turnoCreationDTO.InstructorId))
-            {
-                return BadRequest("El instructor no existe");
-            }
-
-            // Validar que los alumnos existan
-            var resultadoValidacionAlumnos = await alumnosService.ValidarAlumnos(turnoCreationDTO.AlumnosIds);
-            if (resultadoValidacionAlumnos != null)
-            {
-                return resultadoValidacionAlumnos; // Devuelve el BadRequest si hay errores
-            }
-
-            // Eliminar las relaciones antiguas de TurnoAlumno
-            var turnosAlumnosAntiguos = await context.TurnosAlumnos
-                .Where(ta => ta.TurnoId == id)
-                .ToListAsync();
-
-            context.TurnosAlumnos.RemoveRange(turnosAlumnosAntiguos);
-
-            // Crear las nuevas relaciones de TurnoAlumno
-            var alumnosIds = turnoCreationDTO.AlumnosIds;
-            var nuevosTurnosAlumnos = alumnosIds
-                .Select(alumnoId => new TurnoAlumno
-                {
-                    AlumnoId = alumnoId,
-                    TurnoId = id
-                })
-                .ToList();
-
-            await context.TurnosAlumnos.AddRangeAsync(nuevosTurnosAlumnos);
-
-            // Actualizar los cupos
-            diaHora.Cupos -= nuevosTurnosAlumnos.Count - turnosAlumnosAntiguos.Count;
-
-            // Actualizar el turno
-            turno!.DiaHoraId = turnoCreationDTO.DiaHoraId;
-            turno.InstructorId = turnoCreationDTO.InstructorId;
-
-            //Actualizar el turno
-            turno = mapper.Map(turnoCreationDTO, turno);
-            context.Update(turno!);
-            await context.SaveChangesAsync();
-
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
-
-            return NoContent();
-        }
-
-
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var turno = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
-
-            if (turno is null)
+            if (turnoDTO is null)
             {
                 return NotFound();
             }
 
-            //Busco el diaHora vinculado al turno recibido
-            var diaHora = await context.DiaHoras
-                .FirstOrDefaultAsync(dh => dh.Id == turno.DiaHoraId);
-
-            //Contabilizar todos los alumnos vinculados al turno
-            var alumnosEnTurno = await context.TurnosAlumnos
-                .Where(ta => ta.TurnoId == id)
-                .Select(ta => ta.AlumnoId)
-                .ToListAsync();
-
-            //actualizar los cupos 
-            diaHora!.Cupos += alumnosEnTurno.Count;
-
-            //Eliminar el turno
-            context.Remove(turno);
-            await context.SaveChangesAsync();
-            return NoContent();
+            return turnoDTO;
         }
 
 
+        [HttpGet("PostGet")]
+        public async Task<ActionResult<TurnoPostGetDTO>> PostGet()
+        {
+            var instructores = await context.Instructores
+                .ProjectTo<InstructorDTO>(mapper.ConfigurationProvider).ToListAsync();
 
+            var alumnos = await context.Alumnos
+                .ProjectTo<AlumnoDTO>(mapper.ConfigurationProvider).ToListAsync();
+
+            return new TurnoPostGetDTO
+            {
+                Instructores = instructores,
+                alumnos = alumnos
+            };
+        }
+
+        [HttpPost]
+        [OutputCache(Tags = [cacheTag])]
+        public async Task<IActionResult> Post([FromForm] TurnoCreationDTO turnoCreationDTO)
+        {
+            var turno = mapper.Map<Turno>(turnoCreationDTO);
+
+            //Validar que no exista otro turno el mismo dia, hora y con el mismo instructor
+            var turnoExiste = await context.Turnos.AnyAsync(t => t.Dia == turnoCreationDTO.Dia && t.Hora == turnoCreationDTO.Hora
+            && t.InstructorId == turnoCreationDTO.InstructorId);
+
+            if (turnoExiste)
+            {
+                return BadRequest("Ya existe un turno el mismo dia, hora y con el mismo instructor");
+            }
+
+            //Validar que el instructor exista
+            var instructorExiste = await context.Instructores.AnyAsync(i => i.Id == turnoCreationDTO.InstructorId);
+
+            if (!instructorExiste)
+            {
+                return BadRequest("El instructor ingresado no existe");
+            }
+
+            //Validar que los alumnos existan
+            var alumnosExisten = await alumnosService.ValidarAlumnos(turnoCreationDTO.AlumnosIds);
+
+            if (alumnosExisten)
+            {
+                return BadRequest("Uno o mas alumnos no existen");
+            }
+
+            //Validar que no haya alumnos duplicados
+            var alumnosDuplicados = await alumnosService.ValidarAlumnosDuplicados(turnoCreationDTO.AlumnosIds, turno.Id);
+
+            if (alumnosDuplicados)
+            {
+                return BadRequest("Hay un alumno duplicado en el turno");
+            }
+
+            //Validar que la cantidad de alumnos no exceda el cupo
+            if (turno.Cupos - turnoCreationDTO.AlumnosIds.Count() < 0)
+            {
+                return BadRequest("No hay suficientes cupos disponibles.");
+            }
+
+            turno.Cupos -= turnoCreationDTO.AlumnosIds.Count();
+
+            // Actualizar la frecuencia de los alumnos
+            var alumnosIds = turnoCreationDTO.AlumnosIds;
+            await context.Alumnos
+                .Where(a => alumnosIds.Contains(a.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(b => b.FrecuenciaTurno, b => b.FrecuenciaTurno + 1));
+
+            context.Add(turno);
+            await context.SaveChangesAsync();
+
+            await outputCacheStore.EvictByTagAsync(cacheTag, default);
+
+            var turnoDTO = mapper.Map<TurnoDTO>(turno);
+
+            return CreatedAtRoute("ObtenerTurnoPorId", new { id = turno.Id }, turnoDTO);
+
+        }
+
+        [HttpPut("{id:int}")]
+        [OutputCache(Tags = [cacheTag])]
+        public async Task<ActionResult> Put(int id, [FromForm] TurnoCreationDTO turnoCreationDTO)
+        {
+            var turnoId = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
+
+            if(turnoId is null)
+            {
+                return NotFound();
+            }
+
+            var turno = mapper.Map<Turno>(turnoCreationDTO);
+
+            //Validar que no exista otro turno el mismo dia, hora y con el mismo instructor
+            var turnoExiste = await context.Turnos.AnyAsync(t => t.Dia == turnoCreationDTO.Dia && t.Hora == turnoCreationDTO.Hora
+            && t.InstructorId == turnoCreationDTO.InstructorId);
+
+            if (turnoExiste)
+            {
+                return BadRequest("Ya existe un turno el mismo dia, hora y con el mismo instructor");
+            }
+
+            //Validar que el instructor exista
+            var instructorExiste = await context.Instructores.AnyAsync(i => i.Id == turnoCreationDTO.InstructorId);
+
+            if (!instructorExiste)
+            {
+                return BadRequest("El instructor ingresado no existe");
+            }
+
+            //Validar que los alumnos existan
+            var alumnosExisten = await alumnosService.ValidarAlumnos(turnoCreationDTO.AlumnosIds);
+
+            if (alumnosExisten)
+            {
+                return BadRequest("Uno o mas alumnos no existen");
+            }
+
+            //Validar que no haya alumnos duplicados
+            var alumnosDuplicados = await alumnosService.ValidarAlumnosDuplicados(turnoCreationDTO.AlumnosIds, turno.Id);
+
+            if (alumnosDuplicados)
+            {
+                return BadRequest("Hay un alumno duplicado en el turno");
+            }
+
+            //Actualizar el dato de frecuencia de turno para cada alumno
+
+
+            //Actualizar el valor del cupo
+            turno.Cupos -= turnoCreationDTO.AlumnosIds.Count();
+
+            turno = mapper.Map(turnoCreationDTO, turno);
+
+            context.Update(turno);
+            await context.SaveChangesAsync();
+
+            await outputCacheStore.EvictByTagAsync(cacheTag, default);
+            return NoContent();
+
+
+
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            //Busco si el turno existe con ese id
+            var turno = await context.Turnos.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (turno is null)
+            {
+                return BadRequest("El turno no existe");
+            }
+
+            //Elimino las relaciones de TurnoAlumno
+            var turnosAlumnos = await context.TurnosAlumnos
+                .Where(ta => ta.TurnoId == id)
+                .ToListAsync();
+
+            context.TurnosAlumnos.RemoveRange(turnosAlumnos);
+
+            //Elimino el turno
+            context.Turnos.Remove(turno);
+            await context.SaveChangesAsync();
+
+            await outputCacheStore.EvictByTagAsync(cacheTag, default);
+
+            return NoContent();
+
+        }
     }
 }

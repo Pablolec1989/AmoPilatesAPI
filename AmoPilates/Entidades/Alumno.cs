@@ -24,7 +24,7 @@ namespace AmoPilates.Entidades
         public required string NroTelefono { get; set; }
         [MaxLength(500)]
         public string? Observaciones { get; set; }
-
-        public List<TurnoAlumno> TurnosAlumno { get; set; } = [];
+        public List<TurnoAlumno> Turnos { get; set; } = [];
+        public int FrecuenciaTurno { get; set; } = 0;
     }
 }
